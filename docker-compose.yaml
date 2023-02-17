@@ -1,6 +1,26 @@
 version: '3'
 
 services:
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin
+    environment:
+      HEALTHCHECK_URL: "http://localhost/health"
+    user: "1000:1000"
+    volumes:
+      - type: volume
+        source: jellyfin_config
+        target: /config
+      - type: volume
+        source: jellyfin_cache
+        target: /cache
+      - type: bind
+        source: /mnt/media/Mediafiles
+        target: /media
+    networks:
+      macvlan_containers:
+        ipv4_address: 192.168.0.203
+    restart: always
   qbittorent:
     container_name: qbittorent
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -76,3 +96,7 @@ volumes:
     name: portainer_data
   qbittorent_config:
     name: qbittorent_config
+  jellyfin_config:
+    name: jellyfin_config
+  jellyfin_cache:
+    name: jellyfin_cache
