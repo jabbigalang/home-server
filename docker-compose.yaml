@@ -1,0 +1,17 @@
+version: '3'
+
+networks:
+  macvlan_containers:
+    name: macvlan_containers
+    driver: macvlan
+    driver_opts:
+      parent: enp2s0
+    ipam:
+      config:
+        - subnet: "192.168.0.0/24"
+          gateway: "192.168.0.1"
+    
+volumes:
+  pihole_app: {}
+  dns_config: {}
+
