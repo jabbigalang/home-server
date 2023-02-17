@@ -1,5 +1,21 @@
 version: '3'
 
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole
+    environment:
+      TZ: "Asia/Manila"
+      WEBPASSWORD: "password"
+      SERVERIP: "192.168.0.200"
+    volumes:
+      - type: volume
+        source: pihole_app
+        target: /etc/pihole
+      - type: volume
+        source: dns_config
+        target: /etc/dnsmasq.d
+
 networks:
   macvlan_containers:
     name: macvlan_containers
@@ -12,6 +28,5 @@ networks:
           gateway: "192.168.0.1"
     
 volumes:
-  pihole_app: {}
-  dns_config: {}
-
+  pihole_app:
+  dns_config:
