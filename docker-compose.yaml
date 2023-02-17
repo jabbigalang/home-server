@@ -15,7 +15,7 @@ services:
         source: jellyfin_cache
         target: /cache
       - type: bind
-        source: /mnt/media/Mediafiles
+        source: /mnt/media/MediaFiles
         target: /media
     networks:
       macvlan_containers:
