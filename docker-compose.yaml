@@ -15,7 +15,7 @@ services:
         source: jellyfin_cache
         target: /cache
       - type: bind
-        source: /mnt/media/MediaFiles
+        source: /media/chrisen/Storage
         target: /media
     networks:
       macvlan_containers:
@@ -34,7 +34,7 @@ services:
       - "6881:6881"
       - "6881:6881/udp"
     volumes:
-      - /mnt/media/MediaFiles:/downloads
+      - /media/chrisen/Storage:/downloads
       - type: volume
         source: qbittorent_config
         target: /config
