@@ -15,7 +15,7 @@ services:
         source: jellyfin_cache
         target: /cache
       - type: bind
-        source: /media/chrisen/Storage/MediaFiles
+        source: /mnt/media/MediaFiles
         target: /media
     networks:
       macvlan_containers:
@@ -23,7 +23,7 @@ services:
     restart: always
   qbittorent:
     container_name: qbittorent
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: cr.hotio.dev/hotio/qbittorrent
     environment:
       PUID: "1000"
       GUID: "1000"
@@ -34,7 +34,7 @@ services:
       - "6881:6881"
       - "6881:6881/udp"
     volumes:
-      - /media/chrisen/Storage/MediaFiles:/downloads
+      - /mnt/media/MediaFiles:/downloads
       - type: volume
         source: qbittorent_config
         target: /config
