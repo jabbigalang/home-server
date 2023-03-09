@@ -15,7 +15,7 @@ services:
         source: jellyfin_cache
         target: /cache
       - type: bind
-        source: /mnt/media/MediaFiles
+        source: /media/sf_MediaFiles
         target: /media
     networks:
       macvlan_containers:
@@ -34,7 +34,7 @@ services:
       - "6881:6881"
       - "6881:6881/udp"
     volumes:
-      - /mnt/media/MediaFiles:/downloads
+      - /media/sf_MediaFiles:/downloads
       - type: volume
         source: qbittorent_config
         target: /config
@@ -75,18 +75,35 @@ services:
       macvlan_containers:
         ipv4_address: 192.168.0.200
     restart: always
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - sonar_config:/config
+      - /media/sf_MediaFiles/Anime:/tv #optional
+      - /media/sf_MediaFiles:/downloads #optional
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+    networks:
+      macvlan_containers:
+        ipv4_address: 192.168.0.204
 
 networks:
   macvlan_containers:
     name: macvlan_containers
     driver: macvlan
     driver_opts:
-      parent: enp2s0
+      parent: enp0s3
     ipam:
       config:
         - subnet: "192.168.0.0/24"
           gateway: "192.168.0.1"
-    
+
 volumes:
   pihole_app:
     name: pihole_app
@@ -100,3 +117,5 @@ volumes:
     name: jellyfin_config
   jellyfin_cache:
     name: jellyfin_cache
+  sonar_config:
+    name: sonar_config
